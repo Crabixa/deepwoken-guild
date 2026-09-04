@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Deepwoken Guild Tracker</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      background: linear-gradient(135deg, #1a0f0f 0%, #2d1515 100%);
+      color: var(--text-primary, #fff);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      min-height: 100vh;
+      padding: 20px;
+    }
+    
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    
+    .header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    
+    .guild-header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 10px;
+    }
+    
+    .guild-icon {
+      width: 50px;
+      height: 50px;
+      background: #c91d1d;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      color: #fff;
+      font-size: 24px;
+    }
+    
+    .header h1 {
+      font-size: 32px;
+      font-weight: 600;
+      color: #ff4444;
+      margin-bottom: 5px;
+    }
+    
+    .header p {
+      color: #aaa;
+      font-size: 14px;
+    }
+    
+    .discord-link {
+      display: inline-block;
+      margin-top: 10px;
+      background: #5865F2;
+      color: white;
+      padding: 8px 16px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-size: 13px;
+      transition: background 0.2s;
+    }
+    
+    .discord-link:hover {
+      background: #4752C4;
+    }
+
+    .mod-panel {
+      background: rgba(201, 29, 29, 0.15);
+      border: 2px solid #ff4444;
+      border-radius: 8px;
+      padding: 15px;
+      margin-bottom: 20px;
+    }
+
+    .mod-panel h3 {
+      color: #ff4444;
+      margin-bottom: 10px;
+      font-size: 16px;
+    }
+
+    .mod-controls {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      font-size: 12px;
+    }
+
+    .mod-btn {
+      padding: 6px 12px;
+      background: rgba(201, 29, 29, 0.25);
+      border: 1px solid #ff4444;
+      color: #ff4444;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .mod-btn:hover {
+      background: rgba(201, 29, 29, 0.4);
+    }
+
+    .add-member-form {
+      background: rgba(201, 29, 29, 0.1);
+      border: 1px solid #c91d1d;
+      border-radius: 8px;
+      padding: 15px;
+      margin-bottom: 20px;
+      display: none;
+    }
+
+    .add-member-form.active {
+      display: block;
+    }
+
+    .form-group {
+      margin-bottom: 10px;
+    }
+
+    .form-group label {
+      display: block;
+      color: #aaa;
+      font-size: 12px;
+      margin-bottom: 5px;
+    }
+
+    .form-group input, .form-group select {
+      width: 100%;
+      padding: 8px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(201, 29, 29, 0.3);
+      color: #fff;
+      border-radius: 4px;
+      font-size: 13px;
+    }
+
+    .form-group input::placeholder {
+      color: #666;
+    }
+
+    .form-submit {
+      padding: 8px 16px;
+      background: rgba(201, 29, 29, 0.25);
+      border: 1px solid #ff4444;
+      color: #ff4444;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.2s;
+      margin-right: 8px;
+    }
+
+    .form-submit:hover {
+      background: rgba(201, 29, 29, 0.4);
+    }
+    
+    .section-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: #ff4444;
+      margin-top: 30px;
+      margin-bottom: 15px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    
+    .system-info {
+      background: rgba(201, 29, 29, 0.1);
+      border: 1px solid #c91d1d;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 30px;
+    }
+    
+    .system-info h3 {
+      color: #ff4444;
+      margin-bottom: 12px;
+      font-size: 16px;
+    }
+    
+    .member-card {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(201, 29, 29, 0.2);
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 12px;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .member-card:hover {
+      background: rgba(255, 255, 255, 0.04);
+    }
+    
+    .member-card.rank-up {
+      animation: rankUpPulse 0.6s ease-out;
+      border-color: #64ff96;
+      box-shadow: 0 0 20px rgba(100, 255, 150, 0.3);
+    }
+    
+    .member-card.rank-down {
+      animation: rankDownShake 0.5s ease-out;
+      border-color: #ff8888;
+      box-shadow: 0 0 20px rgba(255, 136, 136, 0.3);
+    }
+    
+    @keyframes rankUpPulse {
+      0% { transform: scale(0.95); opacity: 0.8; }
+      50% { transform: scale(1.02); }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    
+    @keyframes rankDownShake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-8px); }
+      75% { transform: translateX(8px); }
+    }
+    
+    @keyframes floatUp {
+      0% { opacity: 1; transform: translateY(0) scale(1); }
+      100% { opacity: 0; transform: translateY(-60px) scale(1.5); }
+    }
+    
+    @keyframes floatDown {
+      0% { opacity: 1; transform: translateY(0) scale(1); }
+      100% { opacity: 0; transform: translateY(60px) scale(0.5); }
+    }
+    
+    .rank-notification {
+      position: absolute;
+      font-weight: 700;
+      font-size: 20px;
+      pointer-events: none;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
+    
+    .rank-notification.up {
+      animation: floatUp 0.8s ease-out forwards;
+      color: #64ff96;
+    }
+    
+    .rank-notification.down {
+      animation: floatDown 0.8s ease-out forwards;
+      color: #ff8888;
+    }
+    
+    .member-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    
+    .member-info h4 {
+      font-size: 16px;
+      color: #fff;
+      margin-bottom: 4px;
+    }
+    
+    .member-rank {
+      color: #aaa;
+      font-size: 13px;
+    }
+    
+    .points-display {
+      text-align: right;
+    }
+    
+    .points-number {
+      font-size: 24px;
+      font-weight: 700;
+      color: #ff4444;
+      transition: all 0.3s ease;
+    }
+    
+    .points-number.pulse {
+      animation: pointsPulse 0.4s ease-out;
+    }
+    
+    @keyframes pointsPulse {
+      0% { transform: scale(1); color: #ff4444; }
+      50% { transform: scale(1.3); color: #ffa500; }
+      100% { transform: scale(1); color: #ff4444; }
+    }
+    
+    .progress-bar {
+      width: 100%;
+      height: 8px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 4px;
+      overflow: hidden;
+      margin-bottom: 8px;
+    }
+    
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #ff4444 0%, #ff6666 100%);
+      border-radius: 4px;
+      transition: width 0.5s ease;
+    }
+    
+    .progress-info {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: #aaa;
+      margin-bottom: 10px;
+    }
+    
+    .buttons-group {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    
+    .btn {
+      padding: 6px 12px;
+      border: 1px solid #c91d1d;
+      background: rgba(201, 29, 29, 0.15);
+      color: #ff4444;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+    
+    .btn:hover {
+      background: rgba(201, 29, 29, 0.25);
+      border-color: #ff4444;
+    }
+    
+    .btn:active {
+      transform: scale(0.95);
+    }
+    
+    .btn-negative {
+      border-color: #ff6666;
+      background: rgba(255, 100, 100, 0.15);
+      color: #ff8888;
+    }
+    
+    .btn-negative:hover {
+      background: rgba(255, 100, 100, 0.25);
+      border-color: #ff8888;
+    }
+
+    .btn-delete {
+      padding: 4px 8px;
+      font-size: 11px;
+      background: rgba(255, 100, 100, 0.2);
+      border: 1px solid #ff6666;
+      color: #ff8888;
+    }
+
+    .btn-delete:hover {
+      background: rgba(255, 100, 100, 0.4);
+    }
+    
+    .rank-badge {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      transition: all 0.3s ease;
+    }
+    
+    .rank-member { background: rgba(100, 180, 255, 0.2); color: #64b4ff; }
+    .rank-officer { background: rgba(255, 180, 0, 0.2); color: #ffa500; }
+    .rank-locotenent { background: rgba(100, 255, 150, 0.2); color: #64ff96; }
+    .rank-trusted { background: rgba(255, 100, 150, 0.2); color: #ff6496; }
+    .rank-colider { background: rgba(255, 0, 0, 0.2); color: #ff4444; }
+
+    .info-box {
+      background: rgba(100, 180, 255, 0.1);
+      border-left: 3px solid #64b4ff;
+      padding: 12px 16px;
+      margin-bottom: 20px;
+      border-radius: 4px;
+      font-size: 13px;
+      color: #aaa;
+      line-height: 1.5;
+    }
+
+    .penalty-info {
+      background: rgba(255, 100, 100, 0.1);
+      border-left: 3px solid #ff6666;
+      padding: 12px 16px;
+      margin-bottom: 20px;
+      border-radius: 4px;
+      font-size: 13px;
+      color: #aaa;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="guild-header">
+        <div class="guild-icon">⚡</div>
+        <div>
+          <h1>DEEPWOKEN GUILD</h1>
+          <p>Sistem de Progresie și Puncte</p>
+        </div>
+      </div>
+      <a href="https://discord.gg/TvCHrxdXF" target="_blank" class="discord-link">📱 Join Discord Server</a>
+    </div>
+
+    <div class="mod-panel">
+      <h3>⚙️ Panou Administrator</h3>
+      <div class="mod-controls">
+        <button class="mod-btn" onclick="toggleAddMemberForm()">➕ Adauga Membru</button>
+        <button class="mod-btn" onclick="exportData()">📥 Exporta Date</button>
+        <button class="mod-btn" onclick="importData()">📤 Importa Backup</button>
+        <button class="mod-btn" onclick="clearAllData()">🗑️ Clear All</button>
+      </div>
+    </div>
+
+    <div class="add-member-form" id="addMemberForm">
+      <h3>Adauga Nou Membru</h3>
+      <div class="form-group">
+        <label>Nume Membru</label>
+        <input type="text" id="newMemberName" placeholder="Ex: Albgamer">
+      </div>
+      <div class="form-group">
+        <label>Rank Initial</label>
+        <select id="newMemberRank">
+          <option value="Membru">Membru</option>
+          <option value="Officer">Officer</option>
+          <option value="Locotenent">Locotenent</option>
+          <option value="Trusted Lt">Trusted Lt</option>
+          <option value="Co-Lider">Co-Lider</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Puncte Initial</label>
+        <input type="number" id="newMemberPoints" placeholder="0" value="0">
+      </div>
+      <button class="form-submit" onclick="addNewMember()">Adauga Membru</button>
+      <button class="form-submit" onclick="toggleAddMemberForm()" style="background: rgba(100, 100, 100, 0.2); border-color: #666; color: #aaa;">Anuleaza</button>
+    </div>
+    
+    <div class="system-info">
+      <h3>📊 Sistem de Puncte</h3>
+      <div class="info-box">
+        <strong>PvE (Host + Defenders):</strong> Host = 50p | Officer Defender = 25p | Locotenent Defender = 15p<br>
+        <strong>PvP:</strong> Spar (full sesiune) = 20p | Gank = 10p<br>
+        <strong>Guild Events:</strong> 50-100p (depinde de event)<br>
+        <strong>Activitate:</strong> Min 1-2h/zi | Degradare Locotenent: 2 săptămâni inactivitate
+      </div>
+      <div class="penalty-info">
+        <strong>⚠️ Penalități:</strong> Officer moare la security în PvE host = -20p | Fail site = 0p
+      </div>
+    </div>
+    
+    <div class="section-title">📈 Rankuri și Progresie</div>
+    <div class="system-info" style="margin-bottom: 30px;">
+      <table style="width: 100%; font-size: 12px;">
+        <thead>
+          <tr>
+            <th style="text-align: left; color: #ff4444; padding: 8px;">Rank</th>
+            <th style="text-align: left; color: #ff4444; padding: 8px;">Puncte</th>
+            <th style="text-align: left; color: #ff4444; padding: 8px;">Descriere</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-top: 1px solid rgba(201, 29, 29, 0.2);">
+            <td style="padding: 8px;"><span class="rank-badge rank-member">Membru</span></td>
+            <td style="padding: 8px;">0</td>
+            <td style="padding: 8px;">Rang de bază</td>
+          </tr>
+          <tr style="border-top: 1px solid rgba(201, 29, 29, 0.2);">
+            <td style="padding: 8px;"><span class="rank-badge rank-officer">Officer</span></td>
+            <td style="padding: 8px;">500</td>
+            <td style="padding: 8px;">25p pentru apărare PvE</td>
+          </tr>
+          <tr style="border-top: 1px solid rgba(201, 29, 29, 0.2);">
+            <td style="padding: 8px;"><span class="rank-badge rank-locotenent">Locotenent</span></td>
+            <td style="padding: 8px;">2,000</td>
+            <td style="padding: 8px;">15p pentru apărare, 20p pentru full spar</td>
+          </tr>
+          <tr style="border-top: 1px solid rgba(201, 29, 29, 0.2);">
+            <td style="padding: 8px;"><span class="rank-badge rank-trusted">Trusted Lt</span></td>
+            <td style="padding: 8px;">4,000</td>
+            <td style="padding: 8px;">Leadership și coordonare</td>
+          </tr>
+          <tr style="border-top: 1px solid rgba(201, 29, 29, 0.2);">
+            <td style="padding: 8px;"><span class="rank-badge rank-colider">Co-Lider</span></td>
+            <td style="padding: 8px;">∞</td>
+            <td style="padding: 8px;">Necesită prietenie cu leadership</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    
+    <div class="section-title">👥 Membri Guild</div>
+    
+    <div id="membersContainer"></div>
+  </div>
+  
+  <script>
+    const STORAGE_KEY = 'deepwoken_guild_members';
+    
+    const rankLimits = {
+      'Membru': 0,
+      'Officer': 500,
+      'Locotenent': 2000,
+      'Trusted Lt': 4000,
+      'Co-Lider': Infinity
+    };
+    
+    const rankOrder = ['Membru', 'Officer', 'Locotenent', 'Trusted Lt', 'Co-Lider'];
+
+    let members = loadMembers();
+
+    function loadMembers() {
+      const stored = localStorage.getItem(STORAGE_KEY);
+      if (stored) {
+        return JSON.parse(stored);
+      }
+      return [
+        { name: 'Deyu', rank: 'Officer', points: 280 },
+        { name: 'Crab', rank: 'Membru', points: 145 },
+        { name: 'Diablo', rank: 'Co-Lider', points: 5000 }
+      ];
+    }
+
+    function saveMembers() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(members));
+    }
+
+    function toggleAddMemberForm() {
+      const form = document.getElementById('addMemberForm');
+      form.classList.toggle('active');
+    }
+
+    function addNewMember() {
+      const name = document.getElementById('newMemberName').value.trim();
+      const rank = document.getElementById('newMemberRank').value;
+      const points = parseInt(document.getElementById('newMemberPoints').value) || 0;
+
+      if (!name) {
+        alert('Introdu un nume!');
+        return;
+      }
+
+      if (members.find(m => m.name.toLowerCase() === name.toLowerCase())) {
+        alert('Acest membru exista deja!');
+        return;
+      }
+
+      members.push({ name, rank, points });
+      saveMembers();
+      renderMembers();
+      toggleAddMemberForm();
+
+      document.getElementById('newMemberName').value = '';
+      document.getElementById('newMemberPoints').value = '0';
+      document.getElementById('newMemberRank').value = 'Membru';
+    }
+
+    function deleteMember(index) {
+      if (confirm('Sigur vrei sa stergi pe ' + members[index].name + '?')) {
+        members.splice(index, 1);
+        saveMembers();
+        renderMembers();
+      }
+    }
+
+    function exportData() {
+      const dataStr = JSON.stringify(members, null, 2);
+      const dataBlob = new Blob([dataStr], { type: 'application/json' });
+      const url = URL.createObjectURL(dataBlob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'deepwoken_guild_backup_' + new Date().toISOString().split('T')[0] + '.json';
+      link.click();
+      alert('Date exportate! Fisier: ' + link.download);
+    }
+
+    function importData() {
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.accept = '.json';
+      input.onchange = (e) => {
+        const file = e.target.files[0];
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          try {
+            const imported = JSON.parse(event.target.result);
+            if (Array.isArray(imported)) {
+              members = imported;
+              saveMembers();
+              renderMembers();
+              alert('Date importate cu succes!');
+            } else {
+              alert('Format invalid!');
+            }
+          } catch (err) {
+            alert('Eroare la import: ' + err.message);
+          }
+        };
+        reader.readAsText(file);
+      };
+      input.click();
+    }
+
+    function clearAllData() {
+      if (confirm('ATENTIE! Aceasta va sterge TOATE datele! Continui?')) {
+        if (confirm('SIGUR? Nu se poate anula!')) {
+          localStorage.removeItem(STORAGE_KEY);
+          members = [];
+          renderMembers();
+          alert('Toate datele au fost sterse!');
+        }
+      }
+    }
+    
+    function getCurrentRankLimit(rank) {
+      return rankLimits[rank];
+    }
+    
+    function getNextRankLimit(rank) {
+      const currentIndex = rankOrder.indexOf(rank);
+      if (currentIndex < rankOrder.length - 1) {
+        return rankLimits[rankOrder[currentIndex + 1]];
+      }
+      return rankLimits[rank];
+    }
+    
+    function getRankClass(rank) {
+      const classes = {
+        'Membru': 'rank-member',
+        'Officer': 'rank-officer',
+        'Locotenent': 'rank-locotenent',
+        'Trusted Lt': 'rank-trusted',
+        'Co-Lider': 'rank-colider'
+      };
+      return classes[rank] || 'rank-member';
+    }
+    
+    function getNextRank(rank) {
+      const currentIndex = rankOrder.indexOf(rank);
+      if (currentIndex < rankOrder.length - 1) {
+        return rankOrder[currentIndex + 1];
+      }
+      return rank;
+    }
+    
+    function calculateProgress(rank, points) {
+      const currentLimit = getCurrentRankLimit(rank);
+      const nextLimit = getNextRankLimit(rank);
+      
+      if (rank === 'Co-Lider') {
+        return 100;
+      }
+      
+      const pointsInRank = points - currentLimit;
+      const pointsNeeded = nextLimit - currentLimit;
+      const progress = Math.min((pointsInRank / pointsNeeded) * 100, 100);
+      return Math.max(progress, 0);
+    }
+    
+    function modifyPoints(memberIndex, amount) {
+      const oldRank = members[memberIndex].rank;
+      members[memberIndex].points = Math.max(0, members[memberIndex].points + amount);
+      
+      let currentRankIndex = rankOrder.indexOf(members[memberIndex].rank);
+      while (currentRankIndex < rankOrder.length - 1) {
+        const nextRank = rankOrder[currentRankIndex + 1];
+        if (members[memberIndex].points >= rankLimits[nextRank]) {
+          members[memberIndex].rank = nextRank;
+          currentRankIndex++;
+        } else {
+          break;
+        }
+      }
+      
+      let rankIndex = rankOrder.indexOf(members[memberIndex].rank);
+      while (rankIndex > 0) {
+        const prevRank = rankOrder[rankIndex - 1];
+        if (members[memberIndex].points < rankLimits[members[memberIndex].rank]) {
+          members[memberIndex].rank = prevRank;
+          rankIndex--;
+        } else {
+          break;
+        }
+      }
+      
+      saveMembers();
+      renderMembers(memberIndex, oldRank);
+    }
+    
+    function renderMembers(animateIndex = -1, oldRank = null) {
+      const container = document.getElementById('membersContainer');
+      container.innerHTML = '';
+      
+      members.forEach((member, idx) => {
+        const progress = calculateProgress(member.rank, member.points);
+        const nextRank = getNextRank(member.rank);
+        const nextLimit = member.rank === 'Co-Lider' ? member.points : getNextRankLimit(member.rank);
+        const pointsToNext = nextLimit - member.points;
+        
+        const card = document.createElement('div');
+        card.className = 'member-card';
+        
+        if (idx === animateIndex && member.rank !== oldRank) {
+          const newRankIndex = rankOrder.indexOf(member.rank);
+          const oldRankIndex = rankOrder.indexOf(oldRank);
+          
+          if (newRankIndex > oldRankIndex) {
+            card.classList.add('rank-up');
+            setTimeout(() => {
+              const notification = document.createElement('div');
+              notification.className = 'rank-notification up';
+              notification.textContent = '⬆️ RANK UP!';
+              card.appendChild(notification);
+            }, 50);
+          } else if (newRankIndex < oldRankIndex) {
+            card.classList.add('rank-down');
+            setTimeout(() => {
+              const notification = document.createElement('div');
+              notification.className = 'rank-notification down';
+              notification.textContent = '⬇️ RANK DOWN!';
+              card.appendChild(notification);
+            }, 50);
+          }
+        }
+        
+        card.innerHTML += `
+          <div class="member-header">
+            <div class="member-info">
+              <h4>${member.name}</h4>
+              <div class="member-rank">
+                <span class="rank-badge ${getRankClass(member.rank)}">${member.rank}</span>
+              </div>
+            </div>
+            <div class="points-display">
+              <div class="points-number ${idx === animateIndex ? 'pulse' : ''}">${member.points}</div>
+              <div class="points-label">Puncte</div>
+            </div>
+          </div>
+          
+          ${member.rank !== 'Co-Lider' ? `
+            <div class="progress-bar">
+              <div class="progress-fill" style="width: ${progress}%"></div>
+            </div>
+            <div class="progress-info">
+              <span>${Math.round(progress)}% către ${nextRank}</span>
+              <span>${pointsToNext} puncte rămase</span>
+            </div>
+          ` : `
+            <div class="progress-info">
+              <span style="color: #ff4444;">🎯 Co-Lider - Max Rank</span>
+            </div>
+          `}
+          
+          <div class="buttons-group">
+            <button class="btn" onclick="modifyPoints(${idx}, 20)">+20p (Full Spar)</button>
+            <button class="btn" onclick="modifyPoints(${idx}, 10)">+10p (Gank)</button>
+            <button class="btn" onclick="modifyPoints(${idx}, 50)">+50p (Host PvE)</button>
+            <button class="btn" onclick="modifyPoints(${idx}, 25)">+25p (Officer Def)</button>
+            <button class="btn" onclick="modifyPoints(${idx}, 15)">+15p (Lt Def)</button>
+            <button class="btn btn-negative" onclick="modifyPoints(${idx}, -20)">-20p (Penalty)</button>
+            <button class="btn btn-negative" onclick="modifyPoints(${idx}, -10)">-10p</button>
+            <button class="btn-delete btn" onclick="deleteMember(${idx})">❌ Delete</button>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    renderMembers();
+  </script>
+</body>
+</html>
