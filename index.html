@@ -540,7 +540,10 @@
       return [
         { name: 'Deyu', rank: '👑 Lider', points: 4500 },
         { name: 'Crab', rank: '🦀 Co-Lider', points: 5000 },
-        { name: 'Diablo', rank: '🧑🏿 Co-Lider', points: 5000 }
+        { name: 'Diablo', rank: '🧑🏿 Co-Lider', points: 5000 },
+        { name: 'Roby', rank: '🛡️ Officer', points: 250 },
+        { name: 'Alex', rank: '🛡️ Officer', points: 300 },
+        { name: 'Dan Draghici', rank: '👨‍💼 Co-Lider', points: 4800 }
       ];
     }
 
@@ -760,7 +763,7 @@
             </div>
           </div>
           
-          ${!member.rank.includes('Lider') ? `
+          ${!member.rank.includes('Lider') && !member.rank.includes('Officer') ? `
             <div class="progress-bar">
               <div class="progress-fill" style="width: ${progress}%"></div>
             </div>
@@ -770,7 +773,7 @@
             </div>
           ` : `
             <div class="progress-info">
-              <span style="color: #ff4444;">🎯 ${member.rank} - Max Rank</span>
+              <span style="color: #ff4444;">🎯 ${member.rank} - Rank Stabil</span>
             </div>
           `}
           
