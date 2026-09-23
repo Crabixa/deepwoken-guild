@@ -32,14 +32,8 @@
     }
     
     @keyframes slideDown {
-      from {
-        opacity: 0;
-        transform: translateY(-30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      from { opacity: 0; transform: translateY(-30px); }
+      to { opacity: 1; transform: translateY(0); }
     }
     
     .guild-header {
@@ -76,7 +70,6 @@
       -webkit-text-fill-color: transparent;
       background-clip: text;
       margin-bottom: 5px;
-      text-shadow: 0 0 20px rgba(255, 23, 68, 0.3);
     }
     
     .header p {
@@ -252,14 +245,8 @@
     }
 
     @keyframes slideUp {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     .rank-column h3 {
@@ -332,6 +319,23 @@
       margin-bottom: 15px;
       font-size: 14px;
     }
+
+    .system-info table {
+      width: 100%;
+    }
+
+    .system-info th {
+      text-align: left;
+      color: #ff1744;
+      padding: 12px;
+      font-weight: 700;
+      border-bottom: 2px solid rgba(255, 23, 68, 0.5);
+    }
+
+    .system-info td {
+      padding: 12px;
+      border-bottom: 1px solid rgba(255, 23, 68, 0.2);
+    }
     
     .member-card {
       background: rgba(255, 255, 255, 0.03);
@@ -352,21 +356,46 @@
     }
     
     .member-card.rank-up {
-      animation: rankUpPulse 0.6s ease-out;
+      animation: rankUpCrazy 1s ease-out;
       border-color: #64ff96;
-      box-shadow: 0 0 30px rgba(100, 255, 150, 0.4);
+      box-shadow: 0 0 50px rgba(100, 255, 150, 0.6);
     }
-    
-    .member-card.rank-down {
-      animation: rankDownShake 0.5s ease-out;
-      border-color: #ff8888;
-      box-shadow: 0 0 30px rgba(255, 136, 136, 0.4);
+
+    @keyframes rankUpCrazy {
+      0% {
+        transform: scale(0.8) rotate(-10deg);
+        opacity: 0;
+        box-shadow: 0 0 0 rgba(100, 255, 150, 0);
+      }
+      50% {
+        transform: scale(1.1) rotate(5deg);
+        box-shadow: 0 0 60px rgba(100, 255, 150, 0.8);
+      }
+      100% {
+        transform: scale(1) rotate(0);
+        opacity: 1;
+        box-shadow: 0 0 50px rgba(100, 255, 150, 0.6);
+      }
     }
-    
-    @keyframes rankUpPulse {
-      0% { transform: scale(0.95); opacity: 0.8; }
-      50% { transform: scale(1.02); }
-      100% { transform: scale(1); opacity: 1; }
+
+    @keyframes confetti {
+      0% {
+        transform: translate(0, -100px) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translate(100px, 300px) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    .confetti {
+      position: fixed;
+      width: 10px;
+      height: 10px;
+      background: #ff1744;
+      pointer-events: none;
+      animation: confetti 1.5s ease-out forwards;
     }
     
     @keyframes rankDownShake {
@@ -375,20 +404,10 @@
       75% { transform: translateX(8px); }
     }
     
-    @keyframes floatUp {
-      0% { opacity: 1; transform: translateY(0) scale(1); }
-      100% { opacity: 0; transform: translateY(-60px) scale(1.5); }
-    }
-    
-    @keyframes floatDown {
-      0% { opacity: 1; transform: translateY(0) scale(1); }
-      100% { opacity: 0; transform: translateY(60px) scale(0.5); }
-    }
-    
     .rank-notification {
       position: absolute;
       font-weight: 700;
-      font-size: 20px;
+      font-size: 24px;
       pointer-events: none;
       left: 50%;
       top: 50%;
@@ -396,13 +415,23 @@
     }
     
     .rank-notification.up {
-      animation: floatUp 0.8s ease-out forwards;
+      animation: floatUpCrazy 1s ease-out forwards;
       color: #64ff96;
+      text-shadow: 0 0 20px rgba(100, 255, 150, 0.8);
     }
-    
-    .rank-notification.down {
-      animation: floatDown 0.8s ease-out forwards;
-      color: #ff8888;
+
+    @keyframes floatUpCrazy {
+      0% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(0.5);
+      }
+      50% {
+        transform: translate(-50%, -150px) scale(1.2);
+      }
+      100% {
+        opacity: 0;
+        transform: translate(-50%, -300px) scale(0.8);
+      }
     }
     
     .member-header {
@@ -444,41 +473,17 @@
     }
     
     .points-number.pulse {
-      animation: pointsPulse 0.4s ease-out;
+      animation: pointsPulseCrazy 0.5s ease-out;
     }
     
-    @keyframes pointsPulse {
+    @keyframes pointsPulseCrazy {
       0% { transform: scale(1); }
-      50% { transform: scale(1.4); }
+      25% { transform: scale(1.3); }
+      50% { transform: scale(0.9); }
+      75% { transform: scale(1.2); }
       100% { transform: scale(1); }
     }
-    
-    .progress-bar {
-      width: 100%;
-      height: 6px;
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 3px;
-      overflow: hidden;
-      margin-bottom: 8px;
-      box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
-    }
-    
-    .progress-fill {
-      height: 100%;
-      background: linear-gradient(90deg, #ff1744 0%, #ff5252 100%);
-      border-radius: 3px;
-      transition: width 0.5s ease;
-      box-shadow: 0 0 10px rgba(255, 23, 68, 0.6);
-    }
-    
-    .progress-info {
-      display: flex;
-      justify-content: space-between;
-      font-size: 11px;
-      color: #aaa;
-      margin-bottom: 12px;
-    }
-    
+
     .buttons-group {
       display: flex;
       gap: 6px;
@@ -508,11 +513,6 @@
       background: rgba(255, 100, 100, 0.15);
       color: #ff8888;
     }
-    
-    .btn-negative:hover {
-      background: rgba(255, 100, 100, 0.3);
-      box-shadow: 0 0 15px rgba(255, 100, 100, 0.4);
-    }
 
     .btn-delete {
       padding: 4px 8px;
@@ -520,10 +520,6 @@
       background: rgba(255, 100, 100, 0.2);
       border: 1px solid #ff6666;
       color: #ff8888;
-    }
-
-    .btn-delete:hover {
-      background: rgba(255, 100, 100, 0.4);
     }
 
     .info-box {
@@ -598,7 +594,7 @@
 
     <div class="section-title">📊 Leaderboard</div>
     <div class="leaderboard-container" id="leaderboardContainer"></div>
-    
+
     <div class="system-info">
       <h3>📊 Sistem de Puncte</h3>
       <div class="info-box">
@@ -610,6 +606,51 @@
       <div class="penalty-info">
         <strong>⚠️ Penalități:</strong> Officer moare la security în PvE host = -20p | Fail site = 0p
       </div>
+    </div>
+
+    <div class="section-title">🎯 Rankuri și Progresie</div>
+    <div class="system-info">
+      <table>
+        <thead>
+          <tr>
+            <th>Rank</th>
+            <th>Puncte Necesare</th>
+            <th>Descriere</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="color: #64b4ff;">👤 Membru</td>
+            <td style="color: #ff1744; font-weight: 700;">0 puncte</td>
+            <td style="color: #aaa;">Rang de bază</td>
+          </tr>
+          <tr>
+            <td style="color: #ffa500;">🛡️ Officer</td>
+            <td style="color: #ff1744; font-weight: 700;">500 puncte</td>
+            <td style="color: #aaa;">Apărare PvE (25p)</td>
+          </tr>
+          <tr>
+            <td style="color: #64ff96;">⚔️ Locotenent</td>
+            <td style="color: #ff1744; font-weight: 700;">2,000 puncte</td>
+            <td style="color: #aaa;">Apărare (15p), Full Spar (20p)</td>
+          </tr>
+          <tr>
+            <td style="color: #ff6496;">👑 Trusted Lt</td>
+            <td style="color: #ff1744; font-weight: 700;">4,000 puncte</td>
+            <td style="color: #aaa;">Leadership și coordonare</td>
+          </tr>
+          <tr>
+            <td style="color: #ff1744;">🦀 Co-Lider</td>
+            <td style="color: #ff1744; font-weight: 700;">Relationship</td>
+            <td style="color: #aaa;">Max rank - Prietenie cu leadership</td>
+          </tr>
+          <tr>
+            <td style="color: #ff1744;">👑 Lider</td>
+            <td style="color: #ff1744; font-weight: 700;">∞</td>
+            <td style="color: #aaa;">Supreme leader</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
     
     <div class="section-title">👥 Membri Detaliati</div>
@@ -646,7 +687,7 @@
         { name: 'Mihnea', rank: '🛡️ Officer', points: 150 },
         { name: 'BARMAN', rank: '👤 Membru', points: 0 },
         { name: 'Hallucinations', rank: '👤 Membru', points: 0 },
-        { name: 'Stemate', rank: '🛡️ Officer', points: 800 }
+        { name: 'Stemate', rank: '🛡️ Officer', points: 0 }
       ];
     }
 
@@ -757,6 +798,19 @@
       return emojis[rank] || '👤';
     }
 
+    function createConfetti(card) {
+      for (let i = 0; i < 30; i++) {
+        const confetti = document.createElement('div');
+        confetti.className = 'confetti';
+        confetti.style.left = card.offsetLeft + card.offsetWidth / 2 + 'px';
+        confetti.style.top = card.offsetTop + card.offsetHeight / 2 + 'px';
+        confetti.style.background = ['#ff1744', '#ff5252', '#64ff96', '#ffd600'][Math.floor(Math.random() * 4)];
+        document.body.appendChild(confetti);
+        
+        setTimeout(() => confetti.remove(), 1500);
+      }
+    }
+
     function renderLeaderboard() {
       const container = document.getElementById('leaderboardContainer');
       container.innerHTML = '';
@@ -826,13 +880,19 @@
         card.className = 'member-card';
         
         if (idx === animateIndex && member.rank !== oldRank) {
-          card.classList.add('rank-up');
-          setTimeout(() => {
-            const notification = document.createElement('div');
-            notification.className = 'rank-notification up';
-            notification.textContent = '⬆️ RANK UP!';
-            card.appendChild(notification);
-          }, 50);
+          const newRankIndex = rankOrder.indexOf(member.rank);
+          const oldRankIndex = rankOrder.indexOf(oldRank);
+          
+          if (newRankIndex > oldRankIndex) {
+            card.classList.add('rank-up');
+            setTimeout(() => {
+              const notification = document.createElement('div');
+              notification.className = 'rank-notification up';
+              notification.textContent = '⬆️ RANK UP! 🎉';
+              card.appendChild(notification);
+              createConfetti(card);
+            }, 100);
+          }
         }
         
         card.innerHTML = `
