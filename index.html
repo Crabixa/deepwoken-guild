@@ -53,13 +53,13 @@
       align-items: center;
       justify-content: center;
       font-size: 40px;
-      box-shadow: 0 0 30px rgba(255, 23, 68, 0.6), inset 0 0 20px rgba(255, 255, 255, 0.1);
+      box-shadow: 0 0 30px rgba(255, 23, 68, 0.6);
       animation: pulse 2s infinite;
     }
     
     @keyframes pulse {
-      0%, 100% { box-shadow: 0 0 30px rgba(255, 23, 68, 0.6), inset 0 0 20px rgba(255, 255, 255, 0.1); }
-      50% { box-shadow: 0 0 50px rgba(255, 23, 68, 0.9), inset 0 0 30px rgba(255, 255, 255, 0.2); }
+      0%, 100% { box-shadow: 0 0 30px rgba(255, 23, 68, 0.6); }
+      50% { box-shadow: 0 0 50px rgba(255, 23, 68, 0.9); }
     }
     
     .header h1 {
@@ -69,7 +69,6 @@
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
-      margin-bottom: 5px;
     }
     
     .header p {
@@ -105,7 +104,6 @@
       padding: 20px;
       margin-bottom: 30px;
       backdrop-filter: blur(10px);
-      box-shadow: 0 8px 32px rgba(255, 23, 68, 0.1);
     }
 
     .mod-panel h3 {
@@ -147,7 +145,6 @@
       padding: 20px;
       margin-bottom: 30px;
       display: none;
-      backdrop-filter: blur(10px);
     }
 
     .add-member-form.active {
@@ -176,13 +173,6 @@
       color: #fff;
       border-radius: 6px;
       font-size: 13px;
-      transition: all 0.3s;
-    }
-
-    .form-group input:focus, .form-group select:focus {
-      outline: none;
-      border-color: #ff1744;
-      box-shadow: 0 0 15px rgba(255, 23, 68, 0.3);
     }
 
     .form-submit {
@@ -195,7 +185,6 @@
       font-weight: 600;
       transition: all 0.3s;
       margin-right: 10px;
-      box-shadow: 0 4px 15px rgba(255, 23, 68, 0.3);
     }
 
     .form-submit:hover {
@@ -223,7 +212,6 @@
       width: 60px;
       height: 3px;
       background: linear-gradient(90deg, #ff1744 0%, #ff5252 100%);
-      border-radius: 2px;
       box-shadow: 0 0 15px rgba(255, 23, 68, 0.6);
     }
     
@@ -239,8 +227,6 @@
       border: 1px solid rgba(255, 23, 68, 0.3);
       border-radius: 12px;
       padding: 20px;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 8px 32px rgba(255, 23, 68, 0.1);
       animation: slideUp 0.6s ease-out;
     }
 
@@ -276,20 +262,17 @@
       padding: 12px;
       margin-bottom: 10px;
       transition: all 0.3s;
-      cursor: pointer;
     }
 
     .leaderboard-member:hover {
       background: rgba(255, 23, 68, 0.1);
       border-color: #ff1744;
       transform: translateX(5px);
-      box-shadow: 0 4px 15px rgba(255, 23, 68, 0.2);
     }
 
     .leaderboard-member-name {
       font-weight: 600;
       margin-bottom: 4px;
-      color: #fff;
     }
 
     .leaderboard-member-points {
@@ -311,7 +294,6 @@
       border-radius: 12px;
       padding: 20px;
       margin-bottom: 30px;
-      backdrop-filter: blur(10px);
     }
     
     .system-info h3 {
@@ -343,7 +325,7 @@
       border-radius: 10px;
       padding: 18px;
       margin-bottom: 15px;
-      transition: all 0.3s ease;
+      transition: all 0.3s;
       position: relative;
       overflow: hidden;
     }
@@ -352,7 +334,6 @@
       background: rgba(255, 23, 68, 0.08);
       border-color: #ff1744;
       transform: translateY(-2px);
-      box-shadow: 0 8px 25px rgba(255, 23, 68, 0.15);
     }
     
     .member-card.rank-up {
@@ -362,31 +343,14 @@
     }
 
     @keyframes rankUpCrazy {
-      0% {
-        transform: scale(0.8) rotate(-10deg);
-        opacity: 0;
-        box-shadow: 0 0 0 rgba(100, 255, 150, 0);
-      }
-      50% {
-        transform: scale(1.1) rotate(5deg);
-        box-shadow: 0 0 60px rgba(100, 255, 150, 0.8);
-      }
-      100% {
-        transform: scale(1) rotate(0);
-        opacity: 1;
-        box-shadow: 0 0 50px rgba(100, 255, 150, 0.6);
-      }
+      0% { transform: scale(0.8) rotate(-10deg); opacity: 0; }
+      50% { transform: scale(1.1) rotate(5deg); }
+      100% { transform: scale(1) rotate(0); opacity: 1; }
     }
 
     @keyframes confetti {
-      0% {
-        transform: translate(0, -100px) rotate(0deg);
-        opacity: 1;
-      }
-      100% {
-        transform: translate(100px, 300px) rotate(360deg);
-        opacity: 0;
-      }
+      0% { transform: translate(0, -100px) rotate(0deg); opacity: 1; }
+      100% { transform: translate(100px, 300px) rotate(360deg); opacity: 0; }
     }
 
     .confetti {
@@ -396,12 +360,6 @@
       background: #ff1744;
       pointer-events: none;
       animation: confetti 1.5s ease-out forwards;
-    }
-    
-    @keyframes rankDownShake {
-      0%, 100% { transform: translateX(0); }
-      25% { transform: translateX(-8px); }
-      75% { transform: translateX(8px); }
     }
     
     .rank-notification {
@@ -421,17 +379,9 @@
     }
 
     @keyframes floatUpCrazy {
-      0% {
-        opacity: 1;
-        transform: translate(-50%, -50%) scale(0.5);
-      }
-      50% {
-        transform: translate(-50%, -150px) scale(1.2);
-      }
-      100% {
-        opacity: 0;
-        transform: translate(-50%, -300px) scale(0.8);
-      }
+      0% { opacity: 1; transform: translate(-50%, -50%) scale(0.5); }
+      50% { transform: translate(-50%, -150px) scale(1.2); }
+      100% { opacity: 0; transform: translate(-50%, -300px) scale(0.8); }
     }
     
     .member-header {
@@ -457,11 +407,6 @@
       text-transform: uppercase;
       background: rgba(255, 23, 68, 0.2);
       color: #ff1744;
-      box-shadow: 0 0 10px rgba(255, 23, 68, 0.3);
-    }
-    
-    .points-display {
-      text-align: right;
     }
     
     .points-number {
@@ -469,7 +414,6 @@
       font-weight: 700;
       color: #ff1744;
       text-shadow: 0 0 10px rgba(255, 23, 68, 0.5);
-      transition: all 0.3s ease;
     }
     
     .points-number.pulse {
@@ -517,9 +461,6 @@
     .btn-delete {
       padding: 4px 8px;
       font-size: 10px;
-      background: rgba(255, 100, 100, 0.2);
-      border: 1px solid #ff6666;
-      color: #ff8888;
     }
 
     .info-box {
@@ -541,7 +482,6 @@
       border-radius: 6px;
       font-size: 12px;
       color: #aaa;
-      line-height: 1.5;
     }
   </style>
 </head>
@@ -555,41 +495,41 @@
           <p>Sistem de Progresie și Puncte</p>
         </div>
       </div>
-      <a href="https://discord.gg/TvCHrxdXF" target="_blank" class="discord-link">📱 Join Discord Server</a>
+      <a href="https://discord.gg/TvCHrxdXF" target="_blank" class="discord-link">📱 Join Discord</a>
     </div>
 
     <div class="mod-panel">
       <h3>⚙️ Panou Administrator</h3>
       <div class="mod-controls">
         <button class="mod-btn" onclick="toggleAddMemberForm()">➕ Adauga Membru</button>
-        <button class="mod-btn" onclick="exportData()">📥 Exporta Date</button>
-        <button class="mod-btn" onclick="importData()">📤 Importa Backup</button>
-        <button class="mod-btn" onclick="clearAllData()">🗑️ Clear All</button>
+        <button class="mod-btn" onclick="exportData()">📥 Exporta</button>
+        <button class="mod-btn" onclick="importData()">📤 Importa</button>
+        <button class="mod-btn" onclick="clearAllData()">🗑️ Clear</button>
       </div>
     </div>
 
     <div class="add-member-form" id="addMemberForm">
       <h3>Adauga Nou Membru</h3>
       <div class="form-group">
-        <label>Nume Membru</label>
+        <label>Nume</label>
         <input type="text" id="newMemberName" placeholder="Ex: Albgamer">
       </div>
       <div class="form-group">
-        <label>Rank Initial</label>
+        <label>Rank</label>
         <select id="newMemberRank">
-          <option value="Membru">Membru</option>
-          <option value="Officer">Officer</option>
-          <option value="Locotenent">Locotenent</option>
-          <option value="Trusted Lt">Trusted Lt</option>
-          <option value="Co-Lider">Co-Lider</option>
+          <option value="👤 Membru">Membru</option>
+          <option value="🛡️ Officer">Officer</option>
+          <option value="⚔️ Locotenent">Locotenent</option>
+          <option value="👑 Trusted Lt">Trusted Lt</option>
+          <option value="🦀 Co-Lider">Co-Lider</option>
         </select>
       </div>
       <div class="form-group">
-        <label>Puncte Initial</label>
+        <label>Puncte</label>
         <input type="number" id="newMemberPoints" placeholder="0" value="0">
       </div>
-      <button class="form-submit" onclick="addNewMember()">Adauga Membru</button>
-      <button class="form-submit" onclick="toggleAddMemberForm()" style="background: rgba(100, 100, 100, 0.2); border: 1px solid #666;">Anuleaza</button>
+      <button class="form-submit" onclick="addNewMember()">Adauga</button>
+      <button class="form-submit" onclick="toggleAddMemberForm()" style="background: rgba(100, 100, 100, 0.2);">Anuleaza</button>
     </div>
 
     <div class="section-title">📊 Leaderboard</div>
@@ -598,13 +538,8 @@
     <div class="system-info">
       <h3>📊 Sistem de Puncte</h3>
       <div class="info-box">
-        <strong>PvE (Host + Defenders):</strong> Host = 50p | Officer Defender = 25p | Locotenent Defender = 15p<br>
-        <strong>PvP:</strong> Spar (full sesiune) = 20p | Gank = 10p<br>
-        <strong>Guild Events:</strong> 50-100p (depinde de event)<br>
-        <strong>Activitate:</strong> Min 1-2h/zi | Degradare Locotenent: 2 săptămâni inactivitate
-      </div>
-      <div class="penalty-info">
-        <strong>⚠️ Penalități:</strong> Officer moare la security în PvE host = -20p | Fail site = 0p
+        <strong>PvE:</strong> Host = 50p | Officer Def = 25p | Locotenent Def = 15p<br>
+        <strong>PvP:</strong> Full Spar = 20p | Gank = 10p | Events = 50-100p
       </div>
     </div>
 
@@ -621,33 +556,28 @@
         <tbody>
           <tr>
             <td style="color: #64b4ff;">👤 Membru</td>
-            <td style="color: #ff1744; font-weight: 700;">0 puncte</td>
-            <td style="color: #aaa;">Rang de bază</td>
+            <td style="color: #ff1744; font-weight: 700;">0 p</td>
+            <td>Rang de bază</td>
           </tr>
           <tr>
             <td style="color: #ffa500;">🛡️ Officer</td>
-            <td style="color: #ff1744; font-weight: 700;">500 puncte</td>
-            <td style="color: #aaa;">Apărare PvE (25p)</td>
+            <td style="color: #ff1744; font-weight: 700;">500 p</td>
+            <td>Apărare PvE (25p)</td>
           </tr>
           <tr>
             <td style="color: #64ff96;">⚔️ Locotenent</td>
-            <td style="color: #ff1744; font-weight: 700;">2,000 puncte</td>
-            <td style="color: #aaa;">Apărare (15p), Full Spar (20p)</td>
+            <td style="color: #ff1744; font-weight: 700;">2000 p</td>
+            <td>Apărare (15p), Spar (20p)</td>
           </tr>
           <tr>
             <td style="color: #ff6496;">👑 Trusted Lt</td>
-            <td style="color: #ff1744; font-weight: 700;">4,000 puncte</td>
-            <td style="color: #aaa;">Leadership și coordonare</td>
+            <td style="color: #ff1744; font-weight: 700;">4000 p</td>
+            <td>Leadership</td>
           </tr>
           <tr>
             <td style="color: #ff1744;">🦀 Co-Lider</td>
-            <td style="color: #ff1744; font-weight: 700;">Relationship</td>
-            <td style="color: #aaa;">Max rank - Prietenie cu leadership</td>
-          </tr>
-          <tr>
-            <td style="color: #ff1744;">👑 Lider</td>
-            <td style="color: #ff1744; font-weight: 700;">∞</td>
-            <td style="color: #aaa;">Supreme leader</td>
+            <td style="color: #ff1744;">Relationship</td>
+            <td>Max rank</td>
           </tr>
         </tbody>
       </table>
@@ -659,16 +589,6 @@
   
   <script>
     const STORAGE_KEY = 'deepwoken_guild_members';
-    
-    const rankLimits = {
-      'Membru': 0,
-      'Officer': 500,
-      'Locotenent': 2000,
-      'Trusted Lt': 4000,
-      'Co-Lider': Infinity
-    };
-    
-    const rankOrder = ['Membru', 'Officer', 'Locotenent', 'Trusted Lt', 'Co-Lider'];
 
     let members = loadMembers();
 
@@ -681,13 +601,13 @@
         { name: 'Deyu', rank: '👑 Lider', points: 4500 },
         { name: 'Crab', rank: '🦀 Co-Lider', points: 5000 },
         { name: 'Diablo', rank: '🧑🏿 Co-Lider', points: 5000 },
-        { name: 'Roby', rank: '🛡️ Officer', points: 1350 },
+        { name: 'Roby', rank: '🛡️ Officer', points: 250 },
         { name: 'Alex', rank: '🛡️ Officer', points: 300 },
         { name: 'Dan Draghici', rank: '👨‍💼 Co-Lider', points: 4800 },
         { name: 'Mihnea', rank: '🛡️ Officer', points: 150 },
         { name: 'BARMAN', rank: '👤 Membru', points: 0 },
         { name: 'Hallucinations', rank: '👤 Membru', points: 0 },
-        { name: 'Stemate', rank: '🛡️ Officer', points: 0 }
+        { name: 'Stemate', rank: '👤 Membru', points: 0 }
       ];
     }
 
@@ -696,8 +616,7 @@
     }
 
     function toggleAddMemberForm() {
-      const form = document.getElementById('addMemberForm');
-      form.classList.toggle('active');
+      document.getElementById('addMemberForm').classList.toggle('active');
     }
 
     function addNewMember() {
@@ -710,24 +629,17 @@
         return;
       }
 
-      if (members.find(m => m.name.toLowerCase() === name.toLowerCase())) {
-        alert('Acest membru exista deja!');
-        return;
-      }
-
       members.push({ name, rank, points });
       saveMembers();
       renderLeaderboard();
       renderMembers();
       toggleAddMemberForm();
-
       document.getElementById('newMemberName').value = '';
       document.getElementById('newMemberPoints').value = '0';
-      document.getElementById('newMemberRank').value = 'Membru';
     }
 
     function deleteMember(index) {
-      if (confirm('Sigur vrei sa stergi pe ' + members[index].name + '?')) {
+      if (confirm('Stergi pe ' + members[index].name + '?')) {
         members.splice(index, 1);
         saveMembers();
         renderLeaderboard();
@@ -741,9 +653,8 @@
       const url = URL.createObjectURL(dataBlob);
       const link = document.createElement('a');
       link.href = url;
-      link.download = 'deepwoken_guild_backup_' + new Date().toISOString().split('T')[0] + '.json';
+      link.download = 'backup_' + new Date().toISOString().split('T')[0] + '.json';
       link.click();
-      alert('Date exportate!');
     }
 
     function importData() {
@@ -761,9 +672,6 @@
               saveMembers();
               renderLeaderboard();
               renderMembers();
-              alert('Date importate!');
-            } else {
-              alert('Format invalid!');
             }
           } catch (err) {
             alert('Eroare: ' + err.message);
@@ -775,14 +683,11 @@
     }
 
     function clearAllData() {
-      if (confirm('ATENTIE! Aceasta va sterge TOATE datele! Continui?')) {
-        if (confirm('SIGUR? Nu se poate anula!')) {
-          localStorage.removeItem(STORAGE_KEY);
-          members = [];
-          renderLeaderboard();
-          renderMembers();
-          alert('Date sterse!');
-        }
+      if (confirm('Sigur? NU SE POATE ANULA!')) {
+        localStorage.removeItem(STORAGE_KEY);
+        members = [];
+        renderLeaderboard();
+        renderMembers();
       }
     }
 
@@ -806,7 +711,6 @@
         confetti.style.top = card.offsetTop + card.offsetHeight / 2 + 'px';
         confetti.style.background = ['#ff1744', '#ff5252', '#64ff96', '#ffd600'][Math.floor(Math.random() * 4)];
         document.body.appendChild(confetti);
-        
         setTimeout(() => confetti.remove(), 1500);
       }
     }
@@ -816,24 +720,16 @@
       container.innerHTML = '';
 
       const ranks = [
-        { name: '👑 LIDER', key: '👑 Lider', emoji: '👑' },
-        { name: '🦀 CO-LIDERI', key: 'Co-Lider', emoji: '🦀' },
-        { name: '⚔️ TRUSTED LT', key: 'Trusted Lt', emoji: '⚔️' },
-        { name: '⚔️ LOCOTENENTI', key: 'Locotenent', emoji: '⚔️' },
-        { name: '🛡️ OFFICER', key: 'Officer', emoji: '🛡️' },
-        { name: '👤 MEMBRI', key: 'Membru', emoji: '👤' }
+        { name: '👑 LIDER', key: '👑 Lider' },
+        { name: '🦀 CO-LIDERI', key: 'Co-Lider' },
+        { name: '⚔️ TRUSTED LT', key: 'Trusted Lt' },
+        { name: '⚔️ LOCOTENENTI', key: 'Locotenent' },
+        { name: '🛡️ OFFICER', key: 'Officer' },
+        { name: '👤 MEMBRI', key: 'Membru' }
       ];
 
       ranks.forEach(rank => {
-        const rankMembers = members.filter(m => {
-          if (rank.key === 'Co-Lider') {
-            return m.rank.includes('Co-Lider');
-          } else if (rank.key === '👑 Lider') {
-            return m.rank === '👑 Lider';
-          } else {
-            return m.rank.includes(rank.key);
-          }
-        }).sort((a, b) => b.points - a.points);
+        const rankMembers = members.filter(m => m.rank.includes(rank.key)).sort((a, b) => b.points - a.points);
 
         const column = document.createElement('div');
         column.className = 'rank-column';
@@ -851,34 +747,31 @@
           rankMembers.forEach(member => {
             const memberDiv = document.createElement('div');
             memberDiv.className = 'leaderboard-member';
-            memberDiv.innerHTML = `
-              <div class="leaderboard-member-name">${getRankEmoji(member.rank)} ${member.name}</div>
-              <div class="leaderboard-member-points">${member.points} pts</div>
-            `;
+            memberDiv.innerHTML = `<div class="leaderboard-member-name">${getRankEmoji(member.rank)} ${member.name}</div><div class="leaderboard-member-points">${member.points} pts</div>`;
             column.appendChild(memberDiv);
           });
         }
-
         container.appendChild(column);
       });
     }
     
     function modifyPoints(memberIndex, amount) {
       const oldRank = members[memberIndex].rank;
-      members[memberIndex].points = Math.max(0, members[memberIndex].points + amount);
-      
-      // Auto rank up quando atinge pragul
-      if (members[memberIndex].points >= 2000 && members[memberIndex].rank === '🛡️ Officer') {
-        members[memberIndex].rank = '⚔️ Locotenent';
-        members[memberIndex].points = 0;
-      } else if (members[memberIndex].points >= 500 && members[memberIndex].rank === '👤 Membru') {
+      members[memberIndex].points += amount;
+      if (members[memberIndex].points < 0) members[memberIndex].points = 0;
+
+      // AUTO RANK UP LOGIC
+      if (members[memberIndex].points >= 500 && members[memberIndex].rank === '👤 Membru') {
         members[memberIndex].rank = '🛡️ Officer';
+        members[memberIndex].points = 0;
+      } else if (members[memberIndex].points >= 2000 && members[memberIndex].rank === '🛡️ Officer') {
+        members[memberIndex].rank = '⚔️ Locotenent';
         members[memberIndex].points = 0;
       } else if (members[memberIndex].points >= 4000 && members[memberIndex].rank === '⚔️ Locotenent') {
         members[memberIndex].rank = '👑 Trusted Lt';
         members[memberIndex].points = 0;
       }
-      
+
       saveMembers();
       renderLeaderboard();
       renderMembers(memberIndex, oldRank);
@@ -893,19 +786,14 @@
         card.className = 'member-card';
         
         if (idx === animateIndex && member.rank !== oldRank) {
-          const newRankIndex = rankOrder.indexOf(member.rank);
-          const oldRankIndex = rankOrder.indexOf(oldRank);
-          
-          if (newRankIndex > oldRankIndex) {
-            card.classList.add('rank-up');
-            setTimeout(() => {
-              const notification = document.createElement('div');
-              notification.className = 'rank-notification up';
-              notification.textContent = '⬆️ RANK UP! 🎉';
-              card.appendChild(notification);
-              createConfetti(card);
-            }, 100);
-          }
+          card.classList.add('rank-up');
+          setTimeout(() => {
+            const notification = document.createElement('div');
+            notification.className = 'rank-notification up';
+            notification.textContent = '⬆️ RANK UP! 🎉';
+            card.appendChild(notification);
+            createConfetti(card);
+          }, 100);
         }
         
         card.innerHTML = `
@@ -914,7 +802,7 @@
               <h4>${getRankEmoji(member.rank)} ${member.name}</h4>
               <span class="rank-badge">${member.rank}</span>
             </div>
-            <div class="points-display">
+            <div style="text-align: right;">
               <div class="points-number ${idx === animateIndex ? 'pulse' : ''}">${member.points}</div>
             </div>
           </div>
@@ -927,7 +815,7 @@
             <button class="btn" onclick="modifyPoints(${idx}, 15)">+15p</button>
             <button class="btn btn-negative" onclick="modifyPoints(${idx}, -20)">-20p</button>
             <button class="btn btn-negative" onclick="modifyPoints(${idx}, -10)">-10p</button>
-            <button class="btn-delete btn" onclick="deleteMember(${idx})">❌ Delete</button>
+            <button class="btn btn-delete" onclick="deleteMember(${idx})">❌ Delete</button>
           </div>
         `;
         container.appendChild(card);
