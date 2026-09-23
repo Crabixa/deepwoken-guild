@@ -866,6 +866,19 @@
     function modifyPoints(memberIndex, amount) {
       const oldRank = members[memberIndex].rank;
       members[memberIndex].points = Math.max(0, members[memberIndex].points + amount);
+      
+      // Auto rank up quando atinge pragul
+      if (members[memberIndex].points >= 2000 && members[memberIndex].rank === '🛡️ Officer') {
+        members[memberIndex].rank = '⚔️ Locotenent';
+        members[memberIndex].points = 0;
+      } else if (members[memberIndex].points >= 500 && members[memberIndex].rank === '👤 Membru') {
+        members[memberIndex].rank = '🛡️ Officer';
+        members[memberIndex].points = 0;
+      } else if (members[memberIndex].points >= 4000 && members[memberIndex].rank === '⚔️ Locotenent') {
+        members[memberIndex].rank = '👑 Trusted Lt';
+        members[memberIndex].points = 0;
+      }
+      
       saveMembers();
       renderLeaderboard();
       renderMembers(memberIndex, oldRank);
