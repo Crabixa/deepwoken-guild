@@ -342,9 +342,21 @@
       box-shadow: 0 0 50px rgba(100, 255, 150, 0.6);
     }
 
+    .member-card.rank-down {
+      animation: rankDownCrazy 1s ease-out;
+      border-color: #ff8888;
+      box-shadow: 0 0 50px rgba(255, 136, 136, 0.6);
+    }
+
     @keyframes rankUpCrazy {
       0% { transform: scale(0.8) rotate(-10deg); opacity: 0; }
       50% { transform: scale(1.1) rotate(5deg); }
+      100% { transform: scale(1) rotate(0); opacity: 1; }
+    }
+
+    @keyframes rankDownCrazy {
+      0% { transform: scale(1.1) rotate(10deg); opacity: 1; }
+      50% { transform: scale(0.9) rotate(-5deg); }
       100% { transform: scale(1) rotate(0); opacity: 1; }
     }
 
@@ -378,10 +390,22 @@
       text-shadow: 0 0 20px rgba(100, 255, 150, 0.8);
     }
 
+    .rank-notification.down {
+      animation: floatDownCrazy 1s ease-out forwards;
+      color: #ff8888;
+      text-shadow: 0 0 20px rgba(255, 136, 136, 0.8);
+    }
+
     @keyframes floatUpCrazy {
       0% { opacity: 1; transform: translate(-50%, -50%) scale(0.5); }
       50% { transform: translate(-50%, -150px) scale(1.2); }
       100% { opacity: 0; transform: translate(-50%, -300px) scale(0.8); }
+    }
+
+    @keyframes floatDownCrazy {
+      0% { opacity: 1; transform: translate(-50%, -50%) scale(0.5); }
+      50% { transform: translate(-50%, 150px) scale(1.2); }
+      100% { opacity: 0; transform: translate(-50%, 300px) scale(0.8); }
     }
     
     .member-header {
@@ -472,16 +496,6 @@
       font-size: 12px;
       color: #aaa;
       line-height: 1.5;
-    }
-
-    .penalty-info {
-      background: rgba(255, 100, 100, 0.08);
-      border-left: 3px solid #ff6666;
-      padding: 12px 16px;
-      margin-bottom: 15px;
-      border-radius: 6px;
-      font-size: 12px;
-      color: #aaa;
     }
   </style>
 </head>
@@ -760,7 +774,7 @@
       members[memberIndex].points += amount;
       if (members[memberIndex].points < 0) members[memberIndex].points = 0;
 
-      // AUTO RANK UP LOGIC
+      // AUTO RANK UP
       if (members[memberIndex].points >= 500 && members[memberIndex].rank === '👤 Membru') {
         members[memberIndex].rank = '🛡️ Officer';
         members[memberIndex].points = 0;
@@ -770,6 +784,18 @@
       } else if (members[memberIndex].points >= 4000 && members[memberIndex].rank === '⚔️ Locotenent') {
         members[memberIndex].rank = '👑 Trusted Lt';
         members[memberIndex].points = 0;
+      }
+
+      // AUTO DOWNGRADE
+      if (members[memberIndex].points === 0 && members[memberIndex].rank === '⚔️ Locotenent') {
+        members[memberIndex].rank = '🛡️ Officer';
+        members[memberIndex].points = 2000;
+      } else if (members[memberIndex].points === 0 && members[memberIndex].rank === '🛡️ Officer') {
+        members[memberIndex].rank = '👤 Membru';
+        members[memberIndex].points = 500;
+      } else if (members[memberIndex].points === 0 && members[memberIndex].rank === '👑 Trusted Lt') {
+        members[memberIndex].rank = '⚔️ Locotenent';
+        members[memberIndex].points = 4000;
       }
 
       saveMembers();
@@ -786,14 +812,30 @@
         card.className = 'member-card';
         
         if (idx === animateIndex && member.rank !== oldRank) {
-          card.classList.add('rank-up');
-          setTimeout(() => {
-            const notification = document.createElement('div');
-            notification.className = 'rank-notification up';
-            notification.textContent = '⬆️ RANK UP! 🎉';
-            card.appendChild(notification);
-            createConfetti(card);
-          }, 100);
+          const oldRankOrder = ['👤 Membru', '🛡️ Officer', '⚔️ Locotenent', '👑 Trusted Lt', '🦀 Co-Lider'];
+          const newRankOrder = ['👤 Membru', '🛡️ Officer', '⚔️ Locotenent', '👑 Trusted Lt', '🦀 Co-Lider'];
+          
+          const oldIdx = oldRankOrder.findIndex(r => oldRank.includes(r));
+          const newIdx = newRankOrder.findIndex(r => member.rank.includes(r));
+          
+          if (newIdx > oldIdx) {
+            card.classList.add('rank-up');
+            setTimeout(() => {
+              const notification = document.createElement('div');
+              notification.className = 'rank-notification up';
+              notification.textContent = '⬆️ RANK UP! 🎉';
+              card.appendChild(notification);
+              createConfetti(card);
+            }, 100);
+          } else if (newIdx < oldIdx) {
+            card.classList.add('rank-down');
+            setTimeout(() => {
+              const notification = document.createElement('div');
+              notification.className = 'rank-notification down';
+              notification.textContent = '⬇️ RANK DOWN! 📉';
+              card.appendChild(notification);
+            }, 100);
+          }
         }
         
         card.innerHTML = `
