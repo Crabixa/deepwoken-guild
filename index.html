@@ -699,7 +699,7 @@
     function clearAllData() {
       if (confirm('Sigur? NU SE POATE ANULA!')) {
         localStorage.removeItem(STORAGE_KEY);
-        members = [];
+        members = loadMembers();
         renderLeaderboard();
         renderMembers();
       }
@@ -774,30 +774,32 @@
       members[memberIndex].points += amount;
       if (members[memberIndex].points < 0) members[memberIndex].points = 0;
 
+      let newRank = members[memberIndex].rank;
+
       // AUTO RANK UP
       if (members[memberIndex].points >= 500 && members[memberIndex].rank === '👤 Membru') {
-        members[memberIndex].rank = '🛡️ Officer';
+        newRank = '🛡️ Officer';
         members[memberIndex].points = 0;
       } else if (members[memberIndex].points >= 2000 && members[memberIndex].rank === '🛡️ Officer') {
-        members[memberIndex].rank = '⚔️ Locotenent';
+        newRank = '⚔️ Locotenent';
         members[memberIndex].points = 0;
       } else if (members[memberIndex].points >= 4000 && members[memberIndex].rank === '⚔️ Locotenent') {
-        members[memberIndex].rank = '👑 Trusted Lt';
+        newRank = '👑 Trusted Lt';
         members[memberIndex].points = 0;
       }
-
-      // AUTO DOWNGRADE
-      if (members[memberIndex].points === 0 && members[memberIndex].rank === '⚔️ Locotenent') {
-        members[memberIndex].rank = '🛡️ Officer';
+      // AUTO DOWNGRADE - DOAR DAC NU S-A UPGRADE-AT
+      else if (members[memberIndex].points === 0 && members[memberIndex].rank === '⚔️ Locotenent') {
+        newRank = '🛡️ Officer';
         members[memberIndex].points = 2000;
       } else if (members[memberIndex].points === 0 && members[memberIndex].rank === '🛡️ Officer') {
-        members[memberIndex].rank = '👤 Membru';
+        newRank = '👤 Membru';
         members[memberIndex].points = 500;
       } else if (members[memberIndex].points === 0 && members[memberIndex].rank === '👑 Trusted Lt') {
-        members[memberIndex].rank = '⚔️ Locotenent';
+        newRank = '⚔️ Locotenent';
         members[memberIndex].points = 4000;
       }
 
+      members[memberIndex].rank = newRank;
       saveMembers();
       renderLeaderboard();
       renderMembers(memberIndex, oldRank);
